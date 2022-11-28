@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:46:16 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/11/15 14:53:48 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 19:57:07 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,30 @@ t_bool	ft_isdigit(int c)
 	return (false);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
-	int	i;
-	int	result;
-	int	sign;
+	long	nb;
+	long	minus;
 
-	i = 0;
-	sign = 1;
-	result = 0;
-	if (str[0] == '-' || str[0] == '+')
-		i++;
-	if (str[0] == '-')
-		sign = -1;
-	while (str[i] >= '0' && str[i] <= '9' && str[i] != '\0')
+	nb = 0;
+	minus = 1;
+	while (*str == ' ' || *str == '\n' || *str == '\t' || *str == '\v'
+		|| *str == '\f' || *str == '\r')
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		result = result * 10 + str[i] - '0';
-		i++;
+		if (*str == '+')
+			str++;
+		else if (*str == '-')
+		{
+			minus *= -1;
+			str++;
+		}
 	}
-	return (sign * result);
+	while (*str >= '0' && *str <= '9')
+	{
+		nb = nb * 10 + *str - 48;
+		str++;
+	}
+	return (nb * minus);
 }

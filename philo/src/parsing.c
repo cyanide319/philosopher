@@ -6,18 +6,28 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:52:11 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/11/22 12:29:35 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 14:46:06 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	error_quit(int code)
+void	error_quit(int code, t_rules *rules)
 {
 	if (code == 1)
 		printf("Bad input.\n");
 	if (code == 2)
 		printf("4 args + 1 optional.\n");
+	if (code == 3)
+	{
+		free (rules->philo);
+		printf("Problem occured with philos maloc.\n");
+	}
+	if (code == 4)
+	{
+		free (rules->philo);
+		printf("Problem occured with mutex creation.\n");
+	}
 	write (2, "Error\n", 6);
 	exit (0);
 }
@@ -43,26 +53,21 @@ t_bool	check_len(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (i == 10)
+		if (i == 4)
 			return (false);
 		i++;
 	}
 	return (true);
 }
 
-void	init_rules(t_philo *rules, int argc, char **argv)
+t_bool	check_range(long input)
 {
-	rules->nb_philo = ft_atoi(argv[1]);
-	rules->tm_to_die = ft_atoi(argv[2]);
-	rules->tm_to_eat = ft_atoi(argv[3]);
-	rules->tm_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		rules->nb_of_eat = ft_atoi(argv[5]);
-	else
-		rules->nb_of_eat = INT_MAX;
+	if (input < 1)
+		return (false);
+	return (true);
 }
 
-void	check_errors(t_philo *rules, int argc, char **argv)
+void	check_errors(t_rules *rules, int argc, char **argv)
 {
 	int	i;
 
@@ -70,8 +75,9 @@ void	check_errors(t_philo *rules, int argc, char **argv)
 	while (i < argc)
 	{
 		if (check_digits(argv[i]) == false
-			|| check_len(argv[i]) == false)
-			error_quit(1);
+			|| check_len(argv[i]) == false
+			|| check_range(ft_atol(argv[i])) == false)
+			error_quit(1, rules);
 		i++;
 	}
 	init_rules(rules, argc, argv);

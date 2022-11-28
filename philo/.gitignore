@@ -50,6 +50,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-*.json
 .DS_Store
 philo
+.json
