@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:46:06 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/11/28 14:40:11 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 18:15:36 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,21 @@
 # include<stdlib.h>
 # include<pthread.h>
 # include<time.h>
+# include<sys/time.h>
 # include<unistd.h>
 # include<limits.h>
+
+# define RF "took right fork"
+# define LF "took left fork"
+# define EAT "is eating"
+# define SLP "is sleeping"
+# define THK "is thinking"
+# define DTH "is dead"
+
+typedef enum e_bool{
+	false,
+	true,
+}t_bool;
 
 typedef struct s_forks{
 	int				left;
@@ -26,28 +39,29 @@ typedef struct s_forks{
 }	t_forks;
 
 typedef struct s_philo{
-	pthread_t		philo_td;
+	pthread_t		p_t;
 	int				id;
+	int				nb_eat;
+	time_t			last_eat;
 	t_forks			forks;
-	struct t_rules	*rules;
+	struct s_rules	*rules;
 }	t_philo;
 
 typedef struct s_rules{
+	int				nb_t;
 	int				nb_philo;
 	int				tm_to_die;
 	int				tm_to_eat;
 	int				tm_to_sleep;
 	int				nb_of_eat;
+	t_bool			dth_flag;
+	pthread_t		death_watch[200];
 	time_t			start_time;
-	pthread_mutex_t	*mute_forks;
+	pthread_mutex_t	mute_forks[200];
 	pthread_mutex_t	mute_write;
-	t_philo			*philo;
+	pthread_mutex_t	mute_death;
+	t_philo			philo[200];
 }	t_rules;
-
-typedef enum e_bool{
-	false,
-	true,
-}t_bool;
 
 //utils
 long	ft_atol(const char *str);
@@ -63,5 +77,19 @@ t_bool	check_len(char *str);
 void	init_rules(t_rules *rules, int argc, char **argv);
 void	init_philo(t_rules *rules);
 time_t	init_time(void);
+void	init_wait_time(t_rules *rules, int wait);
+
+//routine
+void	*routine(void *arg);
+void	reaping(t_rules *rules);
+t_bool	feasting(t_rules *rules);
+t_bool	eat(t_rules *rules, int i);
+t_bool	fucking_sleep(t_rules *rules, int i);
+t_bool	think(t_rules *rules, int i);
+t_bool	print_output(t_rules *rules, int i, char *str);
+t_bool	am_i_dead(t_rules *rules, int i);
+
+//The End
+void	close_threads(t_rules *rules);
 
 #endif
