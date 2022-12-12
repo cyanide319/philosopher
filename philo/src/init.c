@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:51 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/09 18:02:10 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 20:36:29 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ void	init_thread(t_rules *rules)
 		// pthread_create(&rules->death_watch[i], NULL, reaping, (void *)rules);
 		usleep(100);
 	}
-	reaping(rules);
+	if (rules->eat_flag == true)
+		pthread_create(&rules->weight_watcher, NULL, feasting, (void *)rules);
+	// reaping(rules);
 	// feasting(rules);
-	//pthread_create(&rules->death_watch, NULL, reaping, (void *)rules);
+	pthread_create(&rules->death_watch, NULL, reaping, (void *)rules);
 	close_threads(rules);
 }
 
@@ -78,19 +80,25 @@ void	init_philo(t_rules *rules)
 
 void	init_rules(t_rules	*rules, int argc, char **argv)
 {
+	rules->dth_flag = false;
 	rules->nb_philo = ft_atol(argv[1]);
 	rules->tm_to_die = ft_atol(argv[2]);
 	rules->tm_to_eat = ft_atol(argv[3]);
 	rules->tm_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
+	{
 		rules->nb_of_eat = ft_atol(argv[5]);
+		rules->eat_flag = true;
+	}
 	else
+	{
 		rules->nb_of_eat = INT_MAX;
+		rules->eat_flag = false;
+	}
 	rules->start_time = init_time();
 	if (pthread_mutex_init(&rules->mute_write, NULL) != 0)
 		error_quit(4, rules);
 	if (pthread_mutex_init(&rules->mute_death, NULL) != 0)
 		error_quit(4, rules);
-	rules->dth_flag = false;
 	init_philo(rules);
 }

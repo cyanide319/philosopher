@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:46:06 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/09 18:15:36 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 20:31:45 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ typedef struct s_rules{
 	int				tm_to_eat;
 	int				tm_to_sleep;
 	int				nb_of_eat;
+	t_bool			eat_flag;
 	t_bool			dth_flag;
-	pthread_t		death_watch[200];
+	pthread_t		death_watch;
+	pthread_t		weight_watcher;
 	time_t			start_time;
 	pthread_mutex_t	mute_forks[200];
 	pthread_mutex_t	mute_write;
@@ -81,8 +83,9 @@ void	init_wait_time(t_rules *rules, int wait);
 
 //routine
 void	*routine(void *arg);
-void	reaping(t_rules *rules);
-t_bool	feasting(t_rules *rules);
+// void	reaping(t_rules *rules);
+void	*reaping(void *arg);
+void	*feasting(void *arg);
 t_bool	eat(t_rules *rules, int i);
 t_bool	fucking_sleep(t_rules *rules, int i);
 t_bool	think(t_rules *rules, int i);
