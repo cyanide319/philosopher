@@ -1,23 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 12:56:20 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/12 14:49:31 by tbeaudoi         ###   ########.fr       */
+/*   Created: 2022/12/12 14:49:05 by tbeaudoi          #+#    #+#             */
+/*   Updated: 2022/12/12 14:49:21 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	main(int argc, char **argv)
+void	clean_quit(t_rules *rules)
 {
-	t_rules	rules;
+	int	i;
 
-	if (argc >= 5 && argc <= 6)
-		check_errors(&rules, argc, argv);
-	else
-		error_quit(2, &rules);
+	i = 0;
+	while (i > rules->nb_philo)
+	{
+		pthread_mutex_destroy(&rules->mute_forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&rules->mute_write);
+	exit(0);
+}
+
+void	close_threads(t_rules *rules)
+{
+	int	i;
+
+	i = 0;
+	while (i < rules->nb_philo)
+	{
+		pthread_join(rules->philo[i].p_t, NULL);
+		i++;
+	}
+	clean_quit(rules);
 }

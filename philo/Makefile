@@ -6,7 +6,7 @@
 #    By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 12:50:02 by tbeaudoi          #+#    #+#              #
-#    Updated: 2022/12/08 17:17:41 by tbeaudoi         ###   ########.fr        #
+#    Updated: 2022/12/12 14:49:57 by tbeaudoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS =  src/philo.c \
 		src/init.c \
 		src/routine.c \
 		src/routine_utils.c \
+		src/end.c \
 			 
 OBJS = $(SRCS:.c=.o)
 

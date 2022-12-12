@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:51 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/09 20:36:29 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:47:28 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ void	init_thread(t_rules *rules)
 	{
 		rules->nb_t = i;
 		pthread_create(&rules->philo[i].p_t, NULL, routine, (void *)rules);
-		// pthread_create(&rules->death_watch[i], NULL, reaping, (void *)rules);
 		usleep(100);
 	}
 	if (rules->eat_flag == true)
 		pthread_create(&rules->weight_watcher, NULL, feasting, (void *)rules);
-	// reaping(rules);
-	// feasting(rules);
 	pthread_create(&rules->death_watch, NULL, reaping, (void *)rules);
 	close_threads(rules);
 }
@@ -56,10 +53,6 @@ void	init_philo(t_rules *rules)
 
 	i = -1;
 	j = 1;
-	//rules->philo = malloc(sizeof(t_philo) * (rules->nb_philo));
-	//rules->mute_forks = malloc(sizeof(t_philo) * (rules->nb_philo));
-	// if (!rules->philo || !rules->mute_forks)
-	// 	error_quit(3, rules);
 	while (++i < rules->nb_philo)
 	{
 		rules->philo[i].rules = rules;
