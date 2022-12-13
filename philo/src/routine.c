@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:53:55 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/12 14:47:21 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:31:21 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	*reaping(void *arg)
 				rules->philo[i].id);
 			pthread_mutex_unlock(&rules->mute_write);
 		}
-		if (rules->dth_flag == true)
-			break ;
 		i = (i + 1) % rules->nb_philo;
 	}
 	close_threads(rules);
@@ -59,8 +57,6 @@ void	*feasting(void *arg)
 			pthread_mutex_unlock(&rules->mute_write);
 			break ;
 		}
-		if (rules->dth_flag == true)
-			break ;
 		i = (i + 1) % rules->nb_philo;
 	}
 	close_threads(rules);
@@ -86,5 +82,6 @@ void	*routine(void *arg)
 			if (think(rules, i) == false)
 				break ;
 	}
+	close_threads(rules);
 	return (0);
 }
