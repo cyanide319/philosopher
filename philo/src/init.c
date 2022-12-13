@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:51 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/12 19:17:38 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:54:44 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	init_rules(t_rules	*rules, int argc, char **argv)
 	if (pthread_mutex_init(&rules->mute_write, NULL) != 0)
 		error_quit(4, rules);
 	if (pthread_mutex_init(&rules->mute_death, NULL) != 0)
+		error_quit(4, rules);
+	if (pthread_mutex_init(&rules->mute_time, NULL) != 0)
 		error_quit(4, rules);
 	init_philo(rules);
 }

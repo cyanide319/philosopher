@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:46:06 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/12 14:51:09 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:54:28 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_rules{
 	pthread_mutex_t	mute_forks[200];
 	pthread_mutex_t	mute_write;
 	pthread_mutex_t	mute_death;
+	pthread_mutex_t	mute_time;
 	t_philo			philo[200];
 }	t_rules;
 
