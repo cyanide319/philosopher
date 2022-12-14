@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:53:55 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/13 17:39:28 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/13 19:20:27 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	*reaping(void *arg)
 	close_threads(rules);
 	return (0);
 }
-
-
 
 void	*feasting(void *arg)
 {

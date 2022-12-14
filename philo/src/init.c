@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:51 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/13 16:54:44 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:41:03 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	init_wait_time(t_rules *rules, int wait)
 		usleep(50);
 }
 
-void	init_philo(t_rules *rules)
+t_bool	init_philo(t_rules *rules)
 {
 	int	i;
 	int	j;
@@ -59,7 +59,7 @@ void	init_philo(t_rules *rules)
 		rules->philo[i].id = j;
 		rules->philo[i].forks.left = i;
 		if (pthread_mutex_init(&rules->mute_forks[i], NULL) != 0)
-			error_quit(4, rules);
+			return (error_quit(4));
 		if (j == rules->nb_philo)
 			rules->philo[i].forks.right = 0;
 		else
@@ -69,12 +69,15 @@ void	init_philo(t_rules *rules)
 		j++;
 	}
 	init_thread(rules);
+	return (true);
 }
 
-void	init_rules(t_rules	*rules, int argc, char **argv)
+t_bool	init_rules(t_rules	*rules, int argc, char **argv)
 {
 	rules->dth_flag = false;
 	rules->nb_philo = ft_atol(argv[1]);
+	if (rules->nb_philo > 200)
+		return (error_quit(3));
 	rules->tm_to_die = ft_atol(argv[2]);
 	rules->tm_to_eat = ft_atol(argv[3]);
 	rules->tm_to_sleep = ft_atol(argv[4]);
@@ -84,16 +87,14 @@ void	init_rules(t_rules	*rules, int argc, char **argv)
 		rules->eat_flag = true;
 	}
 	else
-	{
-		rules->nb_of_eat = INT_MAX;
 		rules->eat_flag = false;
-	}
 	rules->start_time = init_time();
 	if (pthread_mutex_init(&rules->mute_write, NULL) != 0)
-		error_quit(4, rules);
+		return (error_quit(4));
 	if (pthread_mutex_init(&rules->mute_death, NULL) != 0)
-		error_quit(4, rules);
+		return (error_quit(4));
 	if (pthread_mutex_init(&rules->mute_time, NULL) != 0)
-		error_quit(4, rules);
+		return (error_quit(4));
 	init_philo(rules);
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:56:20 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/12 14:49:31 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:41:22 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int	main(int argc, char **argv)
 	if (argc >= 5 && argc <= 6)
 		check_errors(&rules, argc, argv);
 	else
-		error_quit(2, &rules);
+		error_quit(2);
 }

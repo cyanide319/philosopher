@@ -6,30 +6,24 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:52:11 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/11/24 14:46:06 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:41:17 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	error_quit(int code, t_rules *rules)
+t_bool	error_quit(int code)
 {
+	write (2, "Error\n", 6);
 	if (code == 1)
 		printf("Bad input.\n");
 	if (code == 2)
 		printf("4 args + 1 optional.\n");
 	if (code == 3)
-	{
-		free (rules->philo);
-		printf("Problem occured with philos maloc.\n");
-	}
+		printf("Too many philo.\n");
 	if (code == 4)
-	{
-		free (rules->philo);
 		printf("Problem occured with mutex creation.\n");
-	}
-	write (2, "Error\n", 6);
-	exit (0);
+	return (false);
 }
 
 t_bool	check_digits(char *str)
@@ -77,7 +71,7 @@ void	check_errors(t_rules *rules, int argc, char **argv)
 		if (check_digits(argv[i]) == false
 			|| check_len(argv[i]) == false
 			|| check_range(ft_atol(argv[i])) == false)
-			error_quit(1, rules);
+			error_quit(1);
 		i++;
 	}
 	init_rules(rules, argc, argv);

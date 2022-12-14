@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:46:06 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/13 16:54:28 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:40:36 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ t_bool	ft_isdigit(int c);
 
 //parsing
 void	check_errors(t_rules *rules, int argc, char **argv);
-void	error_quit(int code, t_rules *rules);
+t_bool	error_quit(int code);
 t_bool	check_digits(char *str);
 t_bool	check_len(char *str);
 
 //initialize
-void	init_rules(t_rules *rules, int argc, char **argv);
-void	init_philo(t_rules *rules);
+t_bool	init_rules(t_rules *rules, int argc, char **argv);
+t_bool	init_philo(t_rules *rules);
 time_t	init_time(void);
 void	init_wait_time(t_rules *rules, int wait);
 
@@ -93,6 +93,5 @@ t_bool	print_output(t_rules *rules, int i, char *str);
 
 //The End
 void	close_threads(t_rules *rules);
-void	clean_quit(t_rules *rules);
 
 #endif
