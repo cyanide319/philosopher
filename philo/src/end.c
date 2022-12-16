@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:49:05 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/13 21:34:09 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/15 14:29:54 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ void	close_threads(t_rules *rules)
 	while (i < rules->nb_philo)
 	{
 		pthread_join(rules->philo[i].p_t, NULL);
+		i++;
+	}
+	while (i < rules->nb_philo)
+	{
 		pthread_mutex_destroy(&rules->mute_forks[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:46:06 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/13 21:40:36 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/15 21:30:20 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	init_wait_time(t_rules *rules, int wait);
 void	*routine(void *arg);
 void	*reaping(void *arg);
 void	*feasting(void *arg);
+void	*one_philo_fuck_it(void *arg);
 t_bool	eat(t_rules *rules, int i);
 t_bool	fucking_sleep(t_rules *rules, int i);
 t_bool	think(t_rules *rules, int i);

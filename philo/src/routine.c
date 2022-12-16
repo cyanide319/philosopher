@@ -6,7 +6,7 @@
 /*   By: tbeaudoi <tbeaudoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:53:55 by tbeaudoi          #+#    #+#             */
-/*   Updated: 2022/12/13 19:20:27 by tbeaudoi         ###   ########.fr       */
+/*   Updated: 2022/12/15 22:08:02 by tbeaudoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@ void	*reaping(void *arg)
 		if ((init_time() - rules->start_time) - rules->philo[i].last_eat
 			> rules->tm_to_die && rules->dth_flag == false)
 		{
-			pthread_mutex_lock(&rules->mute_write);
-			printf("%ld %d is dead\n", (init_time() - rules->start_time),
-				rules->philo[i].id);
 			pthread_mutex_lock(&rules->mute_death);
 			rules->dth_flag = true;
 			pthread_mutex_unlock(&rules->mute_death);
+			pthread_mutex_lock(&rules->mute_write);
+			printf("%ld %d is dead\n", (init_time() - rules->start_time),
+				rules->philo[i].id);
 			pthread_mutex_unlock(&rules->mute_write);
+			break ;
 		}
-		i = (i + 1) % rules->nb_philo;
 		pthread_mutex_unlock(&rules->mute_time);
+		i = (i + 1) % rules->nb_philo;
 	}
 	close_threads(rules);
 	return (0);
@@ -59,7 +60,7 @@ void	*feasting(void *arg)
 			rules->dth_flag = true;
 			pthread_mutex_unlock(&rules->mute_death);
 			pthread_mutex_lock(&rules->mute_write);
-			printf("They all ate and thought happily ever after\n");
+			printf("They all ate and thought happily ever after.\n");
 			pthread_mutex_unlock(&rules->mute_write);
 			break ;
 		}
@@ -88,5 +89,24 @@ void	*routine(void *arg)
 			break ;
 	}
 	close_threads(rules);
+	return (0);
+}
+
+void	*one_philo_fuck_it(void *arg)
+{
+	t_rules	*rules;
+	int		i;
+
+	rules = (t_rules *)arg;
+	i = 0;
+	pthread_mutex_lock(&rules->mute_forks[rules->philo[i].forks.left]);
+	print_output(rules, i, LF);
+	init_wait_time(rules, rules->tm_to_die);
+	rules->dth_flag = true;
+	pthread_mutex_lock(&rules->mute_write);
+	printf("%ld %d is dead\n", (init_time() - rules->start_time),
+		rules->philo[i].id);
+	pthread_mutex_unlock(&rules->mute_write);
+	pthread_mutex_unlock(&rules->mute_forks[rules->philo[i].forks.left]);
 	return (0);
 }
